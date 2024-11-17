@@ -1,3 +1,7 @@
+*.csv
+*.parquet
+*.rds
+
 # History files
 .Rhistory
 .Rapp.history
