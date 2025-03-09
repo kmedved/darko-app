@@ -1,6 +1,7 @@
 *.csv
 *.parquet
 *.rds
+*.parq
 
 # History files
 .Rhistory
@@ -12,6 +13,8 @@
 
 # User-specific files
 .Ruserdata
+/my_push_app.R
+
 
 # Example code in package build process
 *-Ex.R

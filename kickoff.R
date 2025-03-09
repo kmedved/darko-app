@@ -1,5 +1,5 @@
-source("darko/pull_data.R")
-source("darko/process_data.R")
-source("darko/push_app.R")
-rm(list = ls())
-
+# Modified kickoff.R to work with uppercase DARKO
+source("pull_data_modified.R")
+source("process_data_modified.R")
+# Commenting out push for now
+# source("push_app.R")
