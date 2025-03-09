@@ -1,31 +1,21 @@
-# File: deploy_fixed.R
+# File: deploy_resilient.R
+
+# First, modify load_data.R to handle missing files
+source("fix_load_data.R")
+
+# Now deploy with all files
 library(rsconnect)
 
-# Get list of files to include in deployment (CRITICAL!)
-all_files <- list.files("DARKO", recursive = TRUE, full.names = FALSE)
+# List all files in the DARKO directory
+app_files <- list.files("DARKO", recursive = TRUE, full.names = TRUE)
 
-# Verify key files are included
-key_files <- c(
-  "version_date.rds",
-  "survival_data.rds", 
-  "current_talent.rds",
-  "five_man.rds",
-  "historical_talent.csv",
-  "app.R"
-)
+# Print the files being deployed
+cat("Files to be deployed:\n")
+print(basename(app_files))
 
-missing_files <- key_files[!key_files %in% all_files]
-if (length(missing_files) > 0) {
-  stop("Missing required files: ", paste(missing_files, collapse=", "))
-}
-
-cat("All required files found, proceeding with deployment...\n")
-
-# Deploy the app with EXPLICIT file list
 rsconnect::deployApp(
   appDir = "DARKO",
-  appName = "DARKO-NBA-Analytics",
-  appFiles = all_files,  # This is critical!
+  appName = "DARKO",
   launch.browser = TRUE,
   forceUpdate = TRUE
 )

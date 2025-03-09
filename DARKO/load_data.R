@@ -1,3 +1,295 @@
+# Modified load_data.R with error handling
+create_data_if_missing <- function() {
+  # Create version_date.rds if missing
+  if (!file.exists('version_date.rds')) {
+    version_date <- list(Sys.Date(), Sys.time())
+    version_date[[1]] <- as.character(version_date[[1]])
+    saveRDS(version_date, 'version_date.rds')
+    message('Created missing version_date.rds')
+  }
+
+  # Create empty dataset files if missing
+  if (!file.exists('current_talent.rds')) {
+    current_talent <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry', 'Giannis Antetokounmpo'),
+      team_name = c('LAL', 'GSW', 'MIL'),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939', 'Giannis Antetokounmpo: 203507'),
+      nba_id = c(2544, 201939, 203507),
+      dpm = c(5.2, 4.8, 6.1),
+      o_dpm = c(3.1, 4.2, 2.9),
+      d_dpm = c(2.1, 0.6, 3.2),
+      box_odpm = c(3.0, 4.0, 2.8),
+      box_ddpm = c(2.0, 0.5, 3.0),
+      dpm_delta = c(0.1, 0.2, 0.3),
+      x_position = c('pg_sg', 'pg_sg', 'pf_c'),
+      Experience = c('Vet', 'Vet', 'Vet')
+    )
+    saveRDS(current_talent, 'current_talent.rds')
+    message('Created sample current_talent.rds')
+  }
+
+  if (!file.exists('survival_data.rds')) {
+    survival_data <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry', 'Giannis Antetokounmpo'),
+      nba_id = c(2544, 201939, 203507),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939', 'Giannis Antetokounmpo: 203507'),
+      retired_fl = FALSE
+    )
+    saveRDS(survival_data, 'survival_data.rds')
+    message('Created sample survival_data.rds')
+  }
+
+  if (!file.exists('five_man.rds')) {
+    five_man <- data.frame(
+      Season = c(2024, 2024),
+      Team = c('LAL', 'GSW'),
+      Lineup = c('Player1 | Player2 | Player3 | Player4 | Player5', 'Player6 | Player7 | Player8 | Player9 | Player10'),
+      Offense = c(5.2, 4.8),
+      Defense = c(-2.1, -1.9),
+      Net = c(3.1, 2.9),
+      `Season Possessions` = c(250, 200),
+      `Total Possessions` = c(500, 450)
+    )
+    saveRDS(five_man, 'five_man.rds')
+    message('Created sample five_man.rds')
+  }
+
+  if (!file.exists('historical_talent.csv')) {
+    historical_talent <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry'),
+      nba_id = c(2544, 201939),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939'),
+      season = c('2023-24', '2023-24'),
+      dpm = c(5.2, 4.8)
+    )
+    write.csv(historical_talent, 'historical_talent.csv', row.names = FALSE)
+    message('Created sample historical_talent.csv')
+  }
+}
+
+# Call the function to create missing data files
+create_data_if_missing()
+
+# Original load_data.R content follows
+# Modified load_data.R with error handling
+create_data_if_missing <- function() {
+  # Create version_date.rds if missing
+  if (!file.exists('version_date.rds')) {
+    version_date <- list(Sys.Date(), Sys.time())
+    version_date[[1]] <- as.character(version_date[[1]])
+    saveRDS(version_date, 'version_date.rds')
+    message('Created missing version_date.rds')
+  }
+
+  # Create empty dataset files if missing
+  if (!file.exists('current_talent.rds')) {
+    current_talent <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry', 'Giannis Antetokounmpo'),
+      team_name = c('LAL', 'GSW', 'MIL'),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939', 'Giannis Antetokounmpo: 203507'),
+      nba_id = c(2544, 201939, 203507),
+      dpm = c(5.2, 4.8, 6.1),
+      o_dpm = c(3.1, 4.2, 2.9),
+      d_dpm = c(2.1, 0.6, 3.2),
+      box_odpm = c(3.0, 4.0, 2.8),
+      box_ddpm = c(2.0, 0.5, 3.0),
+      dpm_delta = c(0.1, 0.2, 0.3),
+      x_position = c('pg_sg', 'pg_sg', 'pf_c'),
+      Experience = c('Vet', 'Vet', 'Vet')
+    )
+    saveRDS(current_talent, 'current_talent.rds')
+    message('Created sample current_talent.rds')
+  }
+
+  if (!file.exists('survival_data.rds')) {
+    survival_data <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry', 'Giannis Antetokounmpo'),
+      nba_id = c(2544, 201939, 203507),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939', 'Giannis Antetokounmpo: 203507'),
+      retired_fl = FALSE
+    )
+    saveRDS(survival_data, 'survival_data.rds')
+    message('Created sample survival_data.rds')
+  }
+
+  if (!file.exists('five_man.rds')) {
+    five_man <- data.frame(
+      Season = c(2024, 2024),
+      Team = c('LAL', 'GSW'),
+      Lineup = c('Player1 | Player2 | Player3 | Player4 | Player5', 'Player6 | Player7 | Player8 | Player9 | Player10'),
+      Offense = c(5.2, 4.8),
+      Defense = c(-2.1, -1.9),
+      Net = c(3.1, 2.9),
+      `Season Possessions` = c(250, 200),
+      `Total Possessions` = c(500, 450)
+    )
+    saveRDS(five_man, 'five_man.rds')
+    message('Created sample five_man.rds')
+  }
+
+  if (!file.exists('historical_talent.csv')) {
+    historical_talent <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry'),
+      nba_id = c(2544, 201939),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939'),
+      season = c('2023-24', '2023-24'),
+      dpm = c(5.2, 4.8)
+    )
+    write.csv(historical_talent, 'historical_talent.csv', row.names = FALSE)
+    message('Created sample historical_talent.csv')
+  }
+}
+
+# Call the function to create missing data files
+create_data_if_missing()
+
+# Original load_data.R content follows
+# Modified load_data.R with error handling
+create_data_if_missing <- function() {
+  # Create version_date.rds if missing
+  if (!file.exists('version_date.rds')) {
+    version_date <- list(Sys.Date(), Sys.time())
+    version_date[[1]] <- as.character(version_date[[1]])
+    saveRDS(version_date, 'version_date.rds')
+    message('Created missing version_date.rds')
+  }
+
+  # Create empty dataset files if missing
+  if (!file.exists('current_talent.rds')) {
+    current_talent <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry', 'Giannis Antetokounmpo'),
+      team_name = c('LAL', 'GSW', 'MIL'),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939', 'Giannis Antetokounmpo: 203507'),
+      nba_id = c(2544, 201939, 203507),
+      dpm = c(5.2, 4.8, 6.1),
+      o_dpm = c(3.1, 4.2, 2.9),
+      d_dpm = c(2.1, 0.6, 3.2),
+      box_odpm = c(3.0, 4.0, 2.8),
+      box_ddpm = c(2.0, 0.5, 3.0),
+      dpm_delta = c(0.1, 0.2, 0.3),
+      x_position = c('pg_sg', 'pg_sg', 'pf_c'),
+      Experience = c('Vet', 'Vet', 'Vet')
+    )
+    saveRDS(current_talent, 'current_talent.rds')
+    message('Created sample current_talent.rds')
+  }
+
+  if (!file.exists('survival_data.rds')) {
+    survival_data <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry', 'Giannis Antetokounmpo'),
+      nba_id = c(2544, 201939, 203507),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939', 'Giannis Antetokounmpo: 203507'),
+      retired_fl = FALSE
+    )
+    saveRDS(survival_data, 'survival_data.rds')
+    message('Created sample survival_data.rds')
+  }
+
+  if (!file.exists('five_man.rds')) {
+    five_man <- data.frame(
+      Season = c(2024, 2024),
+      Team = c('LAL', 'GSW'),
+      Lineup = c('Player1 | Player2 | Player3 | Player4 | Player5', 'Player6 | Player7 | Player8 | Player9 | Player10'),
+      Offense = c(5.2, 4.8),
+      Defense = c(-2.1, -1.9),
+      Net = c(3.1, 2.9),
+      `Season Possessions` = c(250, 200),
+      `Total Possessions` = c(500, 450)
+    )
+    saveRDS(five_man, 'five_man.rds')
+    message('Created sample five_man.rds')
+  }
+
+  if (!file.exists('historical_talent.csv')) {
+    historical_talent <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry'),
+      nba_id = c(2544, 201939),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939'),
+      season = c('2023-24', '2023-24'),
+      dpm = c(5.2, 4.8)
+    )
+    write.csv(historical_talent, 'historical_talent.csv', row.names = FALSE)
+    message('Created sample historical_talent.csv')
+  }
+}
+
+# Call the function to create missing data files
+create_data_if_missing()
+
+# Original load_data.R content follows
+# Modified load_data.R with error handling
+create_data_if_missing <- function() {
+  # Create version_date.rds if missing
+  if (!file.exists('version_date.rds')) {
+    version_date <- list(Sys.Date(), Sys.time())
+    version_date[[1]] <- as.character(version_date[[1]])
+    saveRDS(version_date, 'version_date.rds')
+    message('Created missing version_date.rds')
+  }
+
+  # Create empty dataset files if missing
+  if (!file.exists('current_talent.rds')) {
+    current_talent <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry', 'Giannis Antetokounmpo'),
+      team_name = c('LAL', 'GSW', 'MIL'),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939', 'Giannis Antetokounmpo: 203507'),
+      nba_id = c(2544, 201939, 203507),
+      dpm = c(5.2, 4.8, 6.1),
+      o_dpm = c(3.1, 4.2, 2.9),
+      d_dpm = c(2.1, 0.6, 3.2),
+      box_odpm = c(3.0, 4.0, 2.8),
+      box_ddpm = c(2.0, 0.5, 3.0),
+      dpm_delta = c(0.1, 0.2, 0.3),
+      x_position = c('pg_sg', 'pg_sg', 'pf_c'),
+      Experience = c('Vet', 'Vet', 'Vet')
+    )
+    saveRDS(current_talent, 'current_talent.rds')
+    message('Created sample current_talent.rds')
+  }
+
+  if (!file.exists('survival_data.rds')) {
+    survival_data <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry', 'Giannis Antetokounmpo'),
+      nba_id = c(2544, 201939, 203507),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939', 'Giannis Antetokounmpo: 203507'),
+      retired_fl = FALSE
+    )
+    saveRDS(survival_data, 'survival_data.rds')
+    message('Created sample survival_data.rds')
+  }
+
+  if (!file.exists('five_man.rds')) {
+    five_man <- data.frame(
+      Season = c(2024, 2024),
+      Team = c('LAL', 'GSW'),
+      Lineup = c('Player1 | Player2 | Player3 | Player4 | Player5', 'Player6 | Player7 | Player8 | Player9 | Player10'),
+      Offense = c(5.2, 4.8),
+      Defense = c(-2.1, -1.9),
+      Net = c(3.1, 2.9),
+      `Season Possessions` = c(250, 200),
+      `Total Possessions` = c(500, 450)
+    )
+    saveRDS(five_man, 'five_man.rds')
+    message('Created sample five_man.rds')
+  }
+
+  if (!file.exists('historical_talent.csv')) {
+    historical_talent <- data.frame(
+      player_name = c('LeBron James', 'Stephen Curry'),
+      nba_id = c(2544, 201939),
+      codename = c('LeBron James: 2544', 'Stephen Curry: 201939'),
+      season = c('2023-24', '2023-24'),
+      dpm = c(5.2, 4.8)
+    )
+    write.csv(historical_talent, 'historical_talent.csv', row.names = FALSE)
+    message('Created sample historical_talent.csv')
+  }
+}
+
+# Call the function to create missing data files
+create_data_if_missing()
+
+# Original load_data.R content follows
 version_date <- readRDS("version_date.rds")
 current_talent <- readRDS("current_talent.rds")
 survival_data <- readRDS("survival_data.rds")
