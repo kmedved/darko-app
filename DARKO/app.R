@@ -1615,6 +1615,14 @@ server <- function(input, output, session) {
           mutate(lab = factor(lab, levels = c(">75% on Roster", "75%-25% on Roster")))
       }
 
+      # Get the current season from survival_data
+      current_season <- survival_data %>%
+        filter(current_season == 1) %>%
+        select(season) %>%
+        distinct() %>%
+        pull()
+      
+      
       ggplot() +
         geom_rect(data = rect_frame, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = lab), alpha = 0.35) +
         scale_fill_manual(values = surv_colors, name = "") +
@@ -1626,7 +1634,7 @@ server <- function(input, output, session) {
           x = "NBA Seasons From Current",
           y = "Probability of Being on Roster",
           title = paste0(player_name),
-          subtitle = "Longevity Projections Onwards From 2023-2024",
+          subtitle = paste0("Longevity Projections Onwards From ", current_season),
           caption = basic_cite
         ) +
         theme_surv()
